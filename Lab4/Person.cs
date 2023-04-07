@@ -35,7 +35,6 @@ namespace Lab4
         }
 
 
-        // TODO
         /// <summary>
         /// Computes the alphabetic distance between this person and the given pereson
         /// </summary>
@@ -54,13 +53,13 @@ namespace Lab4
 
             // compute distance between first letters of first name
 
-            char c = 'W';
-            char d = 'K';
+            char c = this.FirstName[0];
+            char d = other.FirstName[0];
 
             int difference = Math.Abs( c - d );
 
 
-            return 1;
+            return difference;
         }
 
 

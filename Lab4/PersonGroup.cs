@@ -14,7 +14,13 @@ namespace Lab4
         }
 
         // TODO
-        public char? EndingLetter { get; }
+        public char? EndingLetter {
+            get
+            {
+                //if Persons is SORTED
+                return Persons[-1].FirstName[0];
+            }
+        }
 
         public int Count => Persons.Count;
 
@@ -55,27 +61,29 @@ namespace Lab4
         // TODO
         public static List<PersonGroup> GeneratePersonGroups(List<Person> persons, int distance)
         {
-            var personGroups = new List<PersonGroup>();
+            var personGroups = new List<PersonGroup>(26 / distance);
 
-            // This isn't correct code. 
-            // It's is just a sample of how to interact with the classes.
-            var group1 = new PersonGroup();
-            var group2 = new PersonGroup();
-
-            foreach (var person in persons)
+            persons.Sort();
+            foreach(var person in persons)
             {
-                if (person.FirstName.StartsWith("K"))
-                {
-                    group1.Persons.Add(person);
-                }
-                else
-                {
-                    group2.Persons.Add(person);
-                }
+                person.FirstName = person.FirstName[1] + person.FirstName.Substring(1);
             }
 
-            personGroups.Add(group1);
-            personGroups.Add(group2);
+           foreach(var person in persons)
+           {
+                for(int i = 0; i < personGroups.Count; i++)
+                {
+                    if (personGroups[i].Count == 0)
+                    {
+                        personGroups[i].Persons.Add(person);
+                    }
+                    else if (personGroups[i].StartingLetter < person.FirstName[0] && personGroups[i].StartingLetter + distance > person.FirstName[0])
+                    {
+                        personGroups[i].Persons.Add(person);
+                        break;
+                    }
+                }
+           }
 
             return personGroups;
         }
