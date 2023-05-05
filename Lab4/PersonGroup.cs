@@ -61,21 +61,27 @@ namespace Lab4
         // TODO
         public static List<PersonGroup> GeneratePersonGroups(List<Person> persons, int distance)
         {
-            var personGroups = new List<PersonGroup>(26 / distance);
+            var personGroups = new List<PersonGroup>();
+            for(int i = 0; i < 26 / distance; i++)
+            {
+                personGroups.Add(default(PersonGroup));
+            }
 
             persons.Sort();
             foreach(var person in persons)
             {
-                person.FirstName = person.FirstName[1] + person.FirstName.Substring(1);
+                var upper = char.ToUpper(person.FirstName[0]);
+                person.FirstName = upper + person.FirstName.Substring(1);
             }
 
            foreach(var person in persons)
            {
                 for(int i = 0; i < personGroups.Count; i++)
                 {
-                    if (personGroups[i].Count == 0)
+                    if (personGroups[i][0].Equals(default(PersonGroup)))
                     {
-                        personGroups[i].Persons.Add(person);
+                        personGroups[i][0].FirstName = person.FirstName;
+                        personGroups[i][0].LastName = person.LastName;
                     }
                     else if (personGroups[i].StartingLetter < person.FirstName[0] && personGroups[i].StartingLetter + distance > person.FirstName[0])
                     {
